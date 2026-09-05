@@ -4,7 +4,7 @@ Sitio web y repositorio dedicado a la gestión, registro y seguimiento del estad
 
 ##  Descripción
 
-El proyecto clasifica y documenta los diferentes estados de los chanchitos:
+El proyecto clasifica y docu  menta los diferentes estados de los chanchitos:
 - **Chanchito Feliz:** Estado óptimo, sin errores y listo para producción.
 - **Chanchito Triste:** Requiere atención, depuración o café.
 
