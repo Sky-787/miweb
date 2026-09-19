@@ -1,5 +1,8 @@
 class calculator:
    def sum(self, a:int,b: int)-> int:    
       return a+b
+   
+   def resta(self, a: int, b: int) -> int:
+      return a-b
 
 # prueba de branch protection
