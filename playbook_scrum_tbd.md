@@ -44,37 +44,55 @@
 
 ---
 
-## 4. Definition of Done (DoD) Preliminar
+## 4. Definition of Ready (DoR) para TBD
+
+Una historia o incremento está **READY** para entrar al sprint si cumple con los siguientes criterios obligatorios:
+
+1. **Tamaño atómico (≤ 1 día):** Está *sliceada* de forma vertical para que su ciclo completo (código + tests + PR + merge) se complete en horas.
+2. **Acceptance Criteria verificables en producción/staging:** Tiene criterios claros de aceptación que el PO o QA pueden validar inmediatamente tras el despliegue automático.
+3. **Estrategia de Feature Toggle definida:** Se especifica si requiere flag, su identificador único (e.g. `feature_multiplicacion`) y su estado inicial (apagado / rollout 0%).
+4. **Cero dependencias bloqueantes externas:** No depende de desarrollos paralelos no integrados. Si requiere servicios externos, se define su contrato o mock previo.
+5. **Estrategia de validación acordada:** El equipo entiende qué pruebas unitarias/integración garantizan que `master` no se romperá.
+
+---
+
+## 5. Definition of Done (DoD)
 
 Una tarea o historia se considera **DONE** solo si cumple con:
 
 ### Criterios Técnicos:
 - [ ] Código implementado con tipado y respetando estándares de estilo (`ruff check .`).
 - [ ] Pruebas unitarias escritas y pasando al 100% (`pytest test.py`).
-- [ ] Integrado a `master` a través de PR con verificación automática de CI.
+- [ ] Integrado a `master` a través de PR con verificación automática de CI (`ci.yaml`).
 - [ ] Imagen Docker construida y publicada en el registro (GHCR) sin errores.
-- [ ] Si la feature no está lista para el usuario final, queda protegida por un Feature Flag apagado.
+- [ ] Si la funcionalidad aún no debe exponerse al público, queda resguardada por un Feature Flag apagado.
 
 ### Criterios de Negocio:
-- [ ] Criterios de aceptación de la historia validados.
-- [ ] Product Owner informado y con control sobre el toggle de activación.
+- [ ] Criterios de aceptación de la historia validados en el entorno desplegado.
+- [ ] Product Owner informado y con control sobre el toggle de activación (rollout gradual).
 - [ ] Monitoreo o logs verificados sin alertas ni regresiones.
 
 ---
 
-## 5. Adaptación de Ceremonias
+## 6. Adaptación de Ceremonias y Planificación Orientada a Flujo
 
 | Ceremonia | Adaptación a TBD + CD | Enfoque Clave |
 | :--- | :--- | :--- |
-| **Sprint Planning** | Se desglosan historias grandes en rebanadas (*slicing*) de horas de trabajo con estrategia de toggle. | "¿Cómo cortamos esto para poder mergear a master hoy mismo?" |
-| **Daily Scrum** | En lugar del típico "¿Qué hice ayer?", el foco pasa a ser el flujo y la integración continua. | "¿Qué integro hoy a master y qué necesito para que sea seguro?" |
+| **Sprint Planning** | Se seleccionan solo historias que cumplan el DoR. Se ordenan por valor, riesgo y ventana de integración diaria (Día 1-2, 3-4, 5+). | "¿Cómo cortamos esto para poder mergear a master hoy mismo?" |
+| **Daily Scrum** | En lugar del típico "¿Qué hice ayer?", el foco pasa a ser el flujo y la integración continua diaria. | "¿Qué integro hoy a master y qué necesito para que sea seguro?" |
 | **Sprint Review** | Se demuestra valor real ya integrado en `master` o producción, alternando toggles en vivo en ConfigCat. | Demostración en vivo sin estrés de merge ni congelamiento de código. |
 | **Retrospectiva** | Se analiza la salud del pipeline, tiempo de vida de ramas y deudas técnicas de feature flags. | "¿Cuántos flags viejos debemos retirar y cómo mejoramos el CI?" |
 
+### Reglas de Ordenación del Sprint Backlog:
+1. **Regla de oro del Día 1:** El primer ítem del Sprint Backlog debe poder integrarse a `master` durante el Día 1 o Día 2.
+2. **Sprint Goal orientado a TBD:** Debe formularse garantizando valor tangible aún si los incrementos tardíos quedan detrás de flags:
+   > *Formato:* "Al final del sprint los usuarios podrán [Capacidad A], mientras que [Capacidad B] permanece protegida bajo Feature Toggle en despliegue oscuro."
+
 ---
 
-## 6. Decisiones Pendientes y Próximos Pasos
+## 7. Acuerdos y Próximos Pasos (Taller 4)
 
-1. **Gestión de Feature Flags:** Configuración e integración del SDK de ConfigCat en el código Python (`src/main.py`).
-2. **Definición de plataforma de Despliegue Continuo (CD):** Elegir y automatizar el despliegue del contenedor Docker a un entorno activo (por ejemplo Render, AWS, Fly.io, etc.).
-3. **Métricas de flujo (DORA):** Medir la frecuencia de despliegue (*Deployment Frequency*) y el tiempo de entrega de cambios (*Lead Time for Changes*).
+1. **Filtro de Semáforo TBD en Planning:** Toda historia nueva debe evaluarse bajo los 4 criterios (Tamaño, Verticalidad, Feature Toggle, Validación en Producción) antes de subir al sprint.
+2. **Desacoplamiento de Desarrollo y Lanzamiento:** La implementación técnica (`feat: código`) y la activación de negocio (`release: rollout 100%`) son tareas separadas.
+3. **Gestión activa de deuda de Flags:** Al encender un flag al 100%, se planifica en el siguiente sprint la eliminación del condicional en el código.
+
