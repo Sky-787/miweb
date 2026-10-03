@@ -3,7 +3,7 @@ import configcatclient
 
 app = FastAPI()
 
-# Inicializamos ConfigCat (Vas a tener que poner tu SDK KEY de verdad después)
+# Inicializamos ConfigCat 
 configcat_client = configcatclient.get('configcat-sdk-1/gSHfCDv24UyHMtp50P-3xg/y4b-lUQex0iEVs3sK9x6Lw')
 
 # Base de datos en memoria para las etiquetas y tareas
