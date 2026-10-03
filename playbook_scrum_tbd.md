@@ -65,7 +65,8 @@ Una tarea o historia se considera **DONE** solo si cumple con:
 - [ ] Pruebas unitarias escritas y pasando al 100% (`pytest test.py`).
 - [ ] Integrado a `master` a través de PR con verificación automática de CI (`ci.yaml`).
 - [ ] Imagen Docker construida y publicada en el registro (GHCR) sin errores.
-- [ ] Si la funcionalidad aún no debe exponerse al público, queda resguardada por un Feature Flag apagado.
+- [ ] Despliegue automático a Producción (Render) disparado correctamente tras el merge a `master`.
+- [ ] Funcionalidades incompletas o no listas gestionadas mediante Feature Toggles (ConfigCat) para no afectar al usuario final en Producción.
 
 ### Criterios de Negocio:
 - [ ] Criterios de aceptación de la historia validados en el entorno desplegado.
